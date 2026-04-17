@@ -1,6 +1,8 @@
 # Find Flights MCP Server
 MCP server for searching and retrieving flight information using Duffel API.
 
+__Note: This MCP was originally authored by Ravina Patel. I have altered the instructions in this README file to reflect my experiences getting the server to work locally with Claude Cowork. My comments will be in blockquotes or emoji.__
+
 ## How it Works
 ![Flight](https://github.com/user-attachments/assets/3ee342a4-c2da-4d4e-a43c-79ae4590d893)
 
@@ -26,6 +28,9 @@ Think of it as having a travel agent in your chat who remembers everything you'v
 - Search for flights within multiple days to find the best flight for your trip (slower)
 ## Prerequisites
 - Python 3.x
+> Python 3.14 didn't work for me at all. When I rolled back to 3.12, everything was fine.
+> You will also need the `uv` package, available [here](https://docs.astral.sh/uv/reference/installer/); here's the command I used (Mac/Unix):
+> `curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=".local/bin" sh`
 - Duffel API Live Key
 
 ## Getting Your Duffel API Key
@@ -33,7 +38,7 @@ Duffel requires account verification and payment information setup, but this MCP
 
 Try using duffel_test first to see the power of this tool. If you end up liking it, you can go through the verification process below to use the live key.
 
-### Test Mode First (Recommended)
+### Test Mode First (Recommended by developer)
 You can start with a test API key (`duffel_test`) to try out the functionality with simulated data before going through the full verification process:
 1. Visit [Duffel's registration page](https://app.duffel.com/join)
 2. Create an account (you can select "Personal Use" for Company Name)
@@ -49,6 +54,7 @@ To access real flight data, follow these steps:
    - Toggle again: Complete any remaining verification steps
    - Final toggle: Access live mode after clicking "Agree and Submit"
 3. Once fully verified, go to More > Developer > Create Live Token
+> Select Read + Write just in case
 4. Copy your live API key
 
 💡 TIP: Each time you complete a verification step, you'll need to toggle test mode off again to proceed to the next step. Keep toggling until you've completed all requirements.
@@ -71,7 +77,7 @@ This MCP server only uses Duffel's search endpoints and cannot make bookings or 
 
 ## Installation
 
-### Installing via Smithery
+### Installing via Smithery ❌
 
 To install Find Flights for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@ravinahp/travel-mcp):
 
@@ -79,17 +85,22 @@ To install Find Flights for Claude Desktop automatically via [Smithery](https://
 npx -y @smithery/cli install @ravinahp/travel-mcp --client claude
 ```
 
-### Manual Installation
+### Manual Installation ✅
 Clone the repository:
 ```bash
 git clone https://github.com/ravinahp/flights-mcp
 cd flights-mcp
 ```
+> The correct command for cloning the repo is `git clone https://github.com/ravinahp/flights-mcp.git`
+>
+> Also, be sure to run the command from a directory where Claude will expect to find MCP servers.
+> For me (MacOS), the directory that worked is ~/Library/Application Support/Claude/
 
 Install dependencies using uv:
 ```bash
 uv sync
 ```
+
 Note: We use uv instead of pip since the project uses pyproject.toml for dependency management.
 
 ## Configure as MCP Server
@@ -106,7 +117,7 @@ Add the following configuration to your JSON file:
         "command": "uv",
         "args": [
             "--directory",
-            "/Users/YOUR_USERNAME/Code/flights-mcp",
+            "/Users/YOUR_USERNAME/your/path/flights-mcp",
             "run",
             "flights-mcp"
         ],
@@ -145,6 +156,11 @@ The Inspector provides:
 - Input/output validation
 - Error tracking
 - Performance metrics
+
+> If installation of flights-mcp as a connector in Claude goes fine, but when you use it Claude tells you it had to use Google Flights as a fallback, 
+> that's a red flag. It means the MCP is only doing rudimentary web searches. Ask Claude about the error it encountered or use the MCP Inspector.
+
+> If you get errors about Python libraries, you may need to change your Python version for the flights-mcp/ folder only. From within the folder, I ran `uv python pin 3.12` to rollback from 3.14. That simple step is what got flights-mcp working for me. 
 
 ## Available Tools
 
