@@ -91,9 +91,7 @@ Clone the repository:
 git clone https://github.com/ravinahp/flights-mcp
 cd flights-mcp
 ```
-> The correct command for cloning the repo is `git clone https://github.com/ravinahp/flights-mcp.git`
->
-> Also, be sure to run the command from a directory where Claude will expect to find MCP servers.
+> Be sure to run the command from a directory where Claude will expect to find MCP servers.
 > For me (MacOS), the directory that worked is ~/Library/Application Support/Claude/
 
 Install dependencies using uv:
@@ -158,7 +156,7 @@ The Inspector provides:
 - Performance metrics
 
 > If installation of flights-mcp as a connector in Claude goes fine, but when you use it Claude tells you it had to use Google Flights as a fallback, 
-> that's a red flag. It means the MCP is only doing rudimentary web searches. Ask Claude about the error it encountered or use the MCP Inspector.
+> that's a red flag. It means the MCP is not working. Ask Claude about the error it encountered or use the MCP Inspector.
 
 > If you get errors about Python libraries, you may need to change your Python version for the flights-mcp/ folder only. From within the folder, I ran `uv python pin 3.12` to rollback from 3.14. That simple step is what got flights-mcp working for me. 
 
